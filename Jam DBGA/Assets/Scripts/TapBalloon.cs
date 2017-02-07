@@ -8,10 +8,10 @@ using Random = UnityEngine.Random;
 public class TapBalloon : MonoBehaviour
 {
     public Button retryButton, nextPlayerButton;
-
+    private Vector3 thresholdScale, finalScale;
     private SceneController refSC;
     private Vector3 startScale, ReduceVector;
-    private int tickTot, tickCount, riskyTick;
+    public int tickTot, tickCount, riskyTick;
     // Number of players choosed in MainMenu
     private int numberPlayer;
     public bool explosiveTick;
@@ -24,16 +24,18 @@ public class TapBalloon : MonoBehaviour
 	{
         tickCount = 0;
         // Random tickTot for each match
-        tickTot = Random.Range(30, 51);
+	    tickTot = Random.Range(30, 51);
         // Threshold out tiskTot
         riskyTick = 10;
-        startScale = this.transform.localScale;
+        startScale = Vector3.one;
         ReduceVector = new Vector3(5, 0, 0);
 	    textMesh.text = tickCount.ToString() + " /" + tickTot.ToString();
 	    this.GetComponent<MeshRenderer>().sharedMaterial.color = Color.white;
 	    refSC = FindObjectOfType<SceneController>();
-	    numberPlayer = refSC.numberPlayer;
-	}
+        finalScale = new Vector3(3.5f, 2.7f, 3.5f);
+        thresholdScale = finalScale / tickTot;
+        //numberPlayer = refSC.numberPlayer;
+    }
 
     private void Update ()
     {
@@ -56,11 +58,17 @@ public class TapBalloon : MonoBehaviour
             FinishExplosion();
             DecisionAfterMatch();
         }
-	}
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            StartCoroutine(ReduceCO());
+        }
+
+    }
   
     private void Increase()
     {
-        this.transform.localScale += ReduceVector * Time.deltaTime;
+        this.transform.localScale += thresholdScale;
         this.GetComponent<MeshRenderer>().sharedMaterial.color += new Color(0, 0, 0.2f);
         tickCount++;
     }
@@ -97,7 +105,7 @@ public class TapBalloon : MonoBehaviour
     {
         while (this.transform.localScale.sqrMagnitude > startScale.sqrMagnitude)
         {
-            this.transform.localScale -= ReduceVector * Time.deltaTime;
+            this.transform.localScale -= thresholdScale * Time.deltaTime;
             yield return null;
         }
         yield break;
