@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: c5d6f8bf69b4f1247b8a5daaa1aa45e1
-timeCreated: 1486467536
+guid: 8bdc97b1cf20a7e40ab584f1ee06feab
+timeCreated: 1486499186
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -9,7 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Balloon
+    4300000: Hills
     9500000: //RootNode
   materials:
     importMaterials: 1
