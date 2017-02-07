@@ -7,69 +7,68 @@ using Random = UnityEngine.Random;
 
 public class TapBalloon : MonoBehaviour
 {
-    public Button retryButton, nextPlayerButton;
-    private Vector3 thresholdScale, finalScale;
-    private SceneController refSC;
-    private Vector3 startScale, ReduceVector;
-    public int tickTot, tickCount, riskyTick;
-    // Number of players choosed in MainMenu
-    private int numberPlayer;
-    public bool explosiveTick;
-
     // For debug
     public TextMesh textMesh;
+    public Button retryButton, nextPlayerButton;
+    private Vector3 thresholdScale, finalScale; 
+    public Vector3 startScale;
+    private SceneController refSC;
     public ParticleSystem particle;
+    public int tickTot, tickCount;
+    private int numberPlayer, riskyTick;
+    private bool explosiveTick; 
+    public bool isExplosed;
 
     private void Awake ()
 	{
-        tickCount = 0;
+        refSC = FindObjectOfType<SceneController>();
+
         // Random tickTot for each match
 	    tickTot = Random.Range(30, 51);
+        // Player tick
+        tickCount = 0;
         // Threshold out tiskTot
         riskyTick = 10;
-        startScale = Vector3.one;
-        ReduceVector = new Vector3(5, 0, 0);
+        // For debug 
 	    textMesh.text = tickCount.ToString() + " /" + tickTot.ToString();
-	    this.GetComponent<MeshRenderer>().sharedMaterial.color = Color.white;
-	    refSC = FindObjectOfType<SceneController>();
+
+        startScale = Vector3.one;
         finalScale = new Vector3(3.5f, 2.7f, 3.5f);
         thresholdScale = finalScale / tickTot;
-        //numberPlayer = refSC.numberPlayer;
+        numberPlayer = refSC.numberPlayer;
     }
 
     private void Update ()
     {
-
-        if (Input.GetMouseButtonDown(0) && tickCount <= tickTot)
+        if (Input.GetMouseButtonDown(0) && tickCount <= tickTot && !isExplosed)
         { 
             // Risky zone
             if (tickCount >= tickTot - riskyTick)
             {
                 textMesh.color = Color.red;
                 RandomExplosion();
-                DecisionAfterMatch();
             }
             Increase();
             textMesh.text = tickCount.ToString() + " /" + tickTot.ToString();
         }
 
-        else if (Input.GetMouseButtonDown(0) && tickCount >= tickTot)
+        else if (Input.GetMouseButtonDown(0) && tickCount >= tickTot && !isExplosed)
         {
             FinishExplosion();
-            DecisionAfterMatch();
+            DecisionAfterMatch(numberPlayer);
+            isExplosed = true;
         }
 
         if (Input.GetMouseButtonDown(1))
         {
             StartCoroutine(ReduceCO());
         }
-
     }
-  
+
+#region Methods
     private void Increase()
     {
         this.transform.localScale += thresholdScale;
-        this.GetComponent<MeshRenderer>().sharedMaterial.color += new Color(0, 0, 0.2f);
         tickCount++;
     }
 
@@ -81,39 +80,21 @@ public class TapBalloon : MonoBehaviour
         if (probability > 5) return;
 
         explosiveTick = true;
-        StartCoroutine(WaterParticle());
-        this.GetComponent<MeshRenderer>().enabled = false;
-        
+        FinishExplosion();
+        DecisionAfterMatch(numberPlayer);
+        isExplosed = true;
     }
 
     private void FinishExplosion()
     {
         StartCoroutine(WaterParticle());
-        this.GetComponent<MeshRenderer>().enabled = false;
-        Debug.Log("EXPLOSION!!!!!");      
+        this.GetComponent<MeshRenderer>().enabled = false;      
     }
 
-    private IEnumerator WaterParticle()
+    private void DecisionAfterMatch(int _numPlayer)
     {
-        particle.Play();
-        yield return  new WaitForSeconds(0.5f);
-        particle.Stop();
-    }
-
-    // For debug
-    private IEnumerator ReduceCO()
-    {
-        while (this.transform.localScale.sqrMagnitude > startScale.sqrMagnitude)
-        {
-            this.transform.localScale -= thresholdScale * Time.deltaTime;
-            yield return null;
-        }
-        yield break;
-    }
-
-    private void DecisionAfterMatch()
-    {
-        switch (numberPlayer)
+        // Spawn restart or retry button
+        switch (_numPlayer)
         {
             case 1:
                 retryButton.gameObject.SetActive(true);
@@ -128,5 +109,30 @@ public class TapBalloon : MonoBehaviour
                 nextPlayerButton.gameObject.SetActive(true);
                 break;
         }
+
+        if (refSC.playerCounter.Equals(_numPlayer))
+        {
+            nextPlayerButton.gameObject.SetActive(false);
+            retryButton.gameObject.SetActive(true);
+            return;
+        }
     }
+
+    private IEnumerator WaterParticle()
+    {
+        particle.Play();
+        yield return new WaitForSeconds(0.5f);
+        particle.Stop();
+    }
+
+    private IEnumerator ReduceCO()
+    {
+        while (this.transform.localScale.sqrMagnitude > startScale.sqrMagnitude)
+        {
+            this.transform.localScale -= thresholdScale * Time.deltaTime * 2.5f;
+            yield return null;
+        }
+        yield break;
+    }
+    #endregion
 }
