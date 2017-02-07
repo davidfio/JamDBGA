@@ -1,7 +1,7 @@
 fileFormatVersion: 2
-guid: c5d6f8bf69b4f1247b8a5daaa1aa45e1
-timeCreated: 1486467536
-licenseType: Free
+guid: ef6c78658a0630d429221c027aeea874
+timeCreated: 1486504929
+licenseType: Pro
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
@@ -9,8 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Balloon
-    9500000: //RootNode
+    4300000: Cloud_04
   materials:
     importMaterials: 1
     materialName: 0
@@ -69,7 +68,7 @@ ModelImporter:
     rootMotionBoneName: 
     hasTranslationDoF: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 0
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
