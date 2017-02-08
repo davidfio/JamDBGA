@@ -2,21 +2,28 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class Timer : MonoBehaviour {
+public class Timer : MonoBehaviour
+{
+    public Image imageTime;
+    private TapBalloon refTap;
+    public float seconds = 15;
+    private float thresholdTime;
 
-    public Slider handle;
-    private float seconds;
-
-	void Start ()
+    private void Awake()
     {
-        handle.minValue = 0;
-        handle.maxValue = Random.Range(30, 50);
+        thresholdTime = imageTime.fillAmount / seconds;
+        StartCoroutine(DecreaseBar());
+        refTap = FindObjectOfType<TapBalloon>();
+    }
 
-	}
-	
-	void Update ()
+    public IEnumerator DecreaseBar()
     {
-        seconds += Time.deltaTime;
-        handle.value = seconds;
-	}
+        while (imageTime.fillAmount > 0)
+        {
+            yield return new WaitForSeconds(1);
+            imageTime.fillAmount -= thresholdTime;
+        }
+        refTap.timerFinish = true;
+        yield break;
+    }
 }

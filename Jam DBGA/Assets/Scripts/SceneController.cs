@@ -15,7 +15,7 @@ public class SceneController : MonoBehaviour
     public int numberPlayer, playerCounter = 1;
     public GameObject balloon;
 	public GameObject canvasFader;
-
+    public bool isFirstTime = true;
     public Text playerShift;
 
 	protected static SceneController _self;
@@ -32,6 +32,7 @@ public class SceneController : MonoBehaviour
     private void Awake()
     {
         refTap = FindObjectOfType<TapBalloon>();
+        Debug.Log("CREATO SCENE CONTROLLER");
     }
 
     public void StartMatch(int _player)
@@ -60,7 +61,6 @@ public class SceneController : MonoBehaviour
             playerCounter++;
             playerShift.text = "Player " + playerCounter + " it's your turn!";
         }
-
     }
 
 
