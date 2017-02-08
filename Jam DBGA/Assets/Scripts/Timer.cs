@@ -23,7 +23,13 @@ public class Timer : MonoBehaviour
             yield return new WaitForSeconds(1);
             imageTime.fillAmount -= thresholdTime;
         }
+        // If time is finish set timerFinish true
         refTap.timerFinish = true;
         yield break;
+    }
+
+    public void ResetTimer()
+    {
+        imageTime.fillAmount = 1;
     }
 }

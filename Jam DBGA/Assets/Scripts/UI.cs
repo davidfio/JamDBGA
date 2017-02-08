@@ -27,4 +27,10 @@ public class UI : MonoBehaviour
         Time.timeScale = 1;
         refSC.isFirstTime = false;
     }
+
+    public IEnumerator PlayerButtonFade(GameObject _go)
+    {
+        yield return new WaitForSeconds(2f);
+        _go.SetActive(false);
+    }
 }

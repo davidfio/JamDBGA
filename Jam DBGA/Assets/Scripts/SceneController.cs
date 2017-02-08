@@ -12,10 +12,12 @@ using UnityEngine.SceneManagement;
 public class SceneController : MonoBehaviour
 {
     private TapBalloon refTap;
-    public int numberPlayer, playerCounter = 1;
+    public Timer refTimer;
+    public int numberPlayerFromMenu; 
+    public int playerCounter;
     public GameObject balloon;
 	public GameObject canvasFader;
-    public bool isFirstTime = true;
+    public bool isFirstTime;
     public Text playerShift;
 
 	protected static SceneController _self;
@@ -32,44 +34,58 @@ public class SceneController : MonoBehaviour
     private void Awake()
     {
         refTap = FindObjectOfType<TapBalloon>();
-        Debug.Log("CREATO SCENE CONTROLLER");
+        refTimer = FindObjectOfType<Timer>();
+        playerCounter = 1;
+        playerShift.text = "Player " + playerCounter + " it's your turn!";
     }
 
     public void StartMatch(int _player)
     {
         //SceneManager.LoadScene(1);
 		StartCoroutine(FadeToScene());
-        numberPlayer = _player;
+        //numberPlayerFromMenu = _player;
     }
 
-    public void Restart(int _numPlayer)
-    {
-        if (_numPlayer.Equals(1))
-        {
-            SceneManager.LoadScene(1);
-        }
-
-        else if (_numPlayer.Equals(2) || _numPlayer.Equals(3) || _numPlayer.Equals(4))
-        {
-            // Reset del timer
-
-            refTap.isExplosed = false;
-            refTap.tickCount = 0;
-            refTap.textMesh.color = Color.blue;
-            balloon.transform.localScale = refTap.startScale;
-            balloon.GetComponent<MeshRenderer>().enabled = true;
-            playerCounter++;
-            playerShift.text = "Player " + playerCounter + " it's your turn!";
-        }
+    public void RestartSingle()
+    {     
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
-
-
+    
 	public IEnumerator FadeToScene ()
 	{
 		canvasFader = GameObject.FindGameObjectWithTag ("Fader");
 		canvasFader.GetComponent<Fade>().FadeIn();
 		yield return new WaitForSeconds(0.8f);
-		SceneManager.LoadScene(1);
+		SceneManager.LoadScene(2);
 	}
-
+    
+    public void ResetMulti()
+    {
+        if (numberPlayerFromMenu.Equals(2) || numberPlayerFromMenu.Equals(3) || numberPlayerFromMenu.Equals(4))
+        {
+            // Increase playerCount
+            playerCounter++;
+            // Bool timerFinish seto false
+            refTap.timerFinish = false;
+            // Reset fillAmount of timer
+            refTimer.ResetTimer();
+            // Set not explosed
+            refTap.isExplosed = false;
+            // Reset tickCount
+            refTap.tickCount = 0;
+            // Reset color of the text mesh
+            refTap.textMesh.color = Color.blue;
+            // Reset scale and mesh renderer of the balloon
+            balloon.transform.localScale = refTap.startScale;
+            balloon.GetComponent<MeshRenderer>().enabled = true;
+            // Disable particles systems
+            refTap.Effetto.SetActive(false);
+            refTap.Effetto2.SetActive(false);
+            refTap.waterBall.SetActive(false);
+            // Print text to playershift
+            playerShift.text = "Player " + playerCounter + " it's your turn!";
+            // Start again the timer
+            refTimer.StartCoroutine(refTimer.DecreaseBar());
+        }
+    }
 }

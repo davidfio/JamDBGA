@@ -9,20 +9,23 @@ public class TapBalloon : MonoBehaviour
 {
     // For debug
     public TextMesh textMesh;
+    public UI refUI;
     public Button retryButton, nextPlayerButton;
     private Vector3 thresholdScale, finalScale; 
     public Vector3 startScale;
     private SceneController refSC;
+    private Timer refTimer;
     public ParticleSystem particle;
     public float tickTot, tickCount;
     private int numberPlayer, riskyTick, probability;
     public bool isExplosed, timerFinish;
-    public GameObject Effetto, waterBall;
-    public GameObject Effetto2;
+    public GameObject Effetto, Effetto2, waterBall;
 
     private void Awake ()
     {
         refSC = FindObjectOfType<SceneController>();
+        refUI = FindObjectOfType<UI>();
+        refTimer = FindObjectOfType<Timer>();
 
         // Random tickTot for each match
 	    tickTot = Random.Range(30, 51);
@@ -36,7 +39,12 @@ public class TapBalloon : MonoBehaviour
         startScale = Vector3.one;
         finalScale = new Vector3(3.5f, 2.7f, 3.5f);
         thresholdScale = finalScale / tickTot;
-        numberPlayer = refSC.numberPlayer;
+        numberPlayer = refSC.numberPlayerFromMenu;
+
+        //if (SceneManager.GetActiveScene().name == "GameSceneMulti")
+        //{
+        //    refUI.StartCoroutine(refUI.PlayerButtonFade(nextPlayerButton.gameObject));
+        //}
     }
 
     private void Update ()
@@ -63,7 +71,7 @@ public class TapBalloon : MonoBehaviour
             isExplosed = true;            
         }
 
-        // Brutal but for debug
+        // If timer is finish start Decision and set isExplosed as true;
         if (timerFinish)
         {
             DecisionAfterMatch(numberPlayer);
@@ -109,6 +117,8 @@ public class TapBalloon : MonoBehaviour
         this.GetComponent<MeshRenderer>().enabled = false;
         Effetto.SetActive(true);
         StartCoroutine(ParticleSystemCO(5));
+        // Stop the coroutin inside timer to stop the time when balloon explose
+        refTimer.StopAllCoroutines();
     }
 
     private void RandomExplosion()
@@ -124,20 +134,20 @@ public class TapBalloon : MonoBehaviour
 
     public void DecisionAfterMatch(int _numPlayer)
     {
-        // Spawn restart or retry button
-        if (_numPlayer.Equals(1))
+
+        if (SceneManager.GetActiveScene().name.Equals("GameSceneSingle"))
         {
             retryButton.gameObject.SetActive(true);
             StopAllCoroutines();
         }
 
-        else if (_numPlayer.Equals(2) || _numPlayer.Equals(3) || _numPlayer.Equals(4))
+        else if (SceneManager.GetActiveScene().name.Equals("GameSceneMulti"))
         {
             nextPlayerButton.gameObject.SetActive(true);
 
             StopAllCoroutines();
         }
-        
+
         if (refSC.playerCounter.Equals(_numPlayer))
         {
             nextPlayerButton.gameObject.SetActive(false);
