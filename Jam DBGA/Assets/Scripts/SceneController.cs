@@ -17,10 +17,19 @@ public class SceneController : MonoBehaviour
 
     public Text playerShift;
 
+	protected static SceneController _self;
+	public static SceneController Self
+	{
+		get
+		{
+			if (_self == null)
+				_self = FindObjectOfType(typeof(SceneController)) as SceneController;
+			return _self;
+		}
+	}
+
     private void Awake()
     {
-        //if (FindObjectsOfType<SceneController>().Length > 1)
-          //  Destroy(this.gameObject);
         refTap = FindObjectOfType<TapBalloon>();
     }
 
