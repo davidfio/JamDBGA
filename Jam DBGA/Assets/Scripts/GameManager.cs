@@ -16,7 +16,6 @@ public class GameManager : MonoBehaviour {
 	public GameObject panelScore;
 	public Button retryButton, nextPlayerButton;
 	public Text[] scoreTextArray;
-	public bool canPlay;
 
 	private void Awake()
 	{
@@ -95,8 +94,25 @@ public class GameManager : MonoBehaviour {
 		refTap.Effetto2.SetActive(false);
 		refTap.waterBall.SetActive(false);
 		// Print text to playershift
-		playerShift.text = "Player " + playerCounter + " it's your turn!";
+		int realNPlayer = playerCounter + 1;
+		nextPlayerButton.transform.GetChild(0).GetComponent<Text>().text = "Player " + realNPlayer + " it's your turn!";
 		// Start again the timer
 		refTimer.StartCoroutine(refTimer.DecreaseBar());
 	}
+
+
+	public void NextRisk()
+	{
+		if (playerCounter.Equals (NPlayer.Self.nPlayer-1)){
+			playerCounter = 0;
+			int realNPlayer = playerCounter + 1;
+			nextPlayerButton.transform.GetChild(0).GetComponent<Text>().text = "Player " + realNPlayer + " it's your turn!";
+		} else {
+			playerCounter++;
+			int realNPlayer = playerCounter + 1;
+			nextPlayerButton.transform.GetChild(0).GetComponent<Text>().text = "Player " + realNPlayer + " it's your turn!";
+		}
+
+	} 
+
 }
