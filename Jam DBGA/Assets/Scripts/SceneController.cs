@@ -26,11 +26,28 @@ public class SceneController : MonoBehaviour
 		}
 	}
 
-    public void StartMatch(int _player)
+    public void StartMatch(int nMode)
     {
 		NPlayer.Self.nPlayer = numberPlayerFromMenu;
-		SceneManager.LoadScene(1);
 
+		switch (nMode)
+		{
+		case 1:
+			StartCoroutine (FadeToScene (1));
+			break;
+		case 2:
+			StartCoroutine (FadeToScene (2));
+			break;
+		case 3:
+			StartCoroutine (FadeToScene (3));
+			break;
+		case 4:
+			StartCoroutine (FadeToScene (4));
+			break;
+		default:
+			print ("Incorrect level.");
+			break;
+		}
 		/*if (numberPlayerFromMenu == 1) {
 			//SceneManager.LoadScene(1);
 			StartCoroutine (FadeToScene (1));

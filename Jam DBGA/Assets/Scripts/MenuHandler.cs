@@ -68,7 +68,7 @@ public class MenuHandler : MonoBehaviour {
 		}
 
 		//Rende selezionabili le modalità
-		gameModesButtons [0].GetComponent<Button> ().interactable = false;
+		gameModesButtons [0].GetComponent<Button> ().interactable = true;
 		gameModesButtons [1].GetComponent<Button> ().interactable = false;
 		gameModesButtons [2].GetComponent<Button> ().interactable = true;
 		gameModesButtons [3].GetComponent<Button> ().interactable = true;
