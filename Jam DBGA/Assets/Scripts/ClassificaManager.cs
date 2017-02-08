@@ -10,24 +10,30 @@ public class ClassificaManager : MonoBehaviour {
     public GameObject scorePannel;
     public Text[] scoreText;
 
-    public void AddPlayer()
-    {
-        if (playerNumber < 4)
-        {
-            playerNumber++;
-            myText.text = "Player: " + playerNumber;
-        }
-        return;
-    }
-    public void SubPlayer()
-    {
-        if (playerNumber > 1)
-        {
-            playerNumber--;
-            myText.text = "Player: " + playerNumber;
-        }
-        return;
+    //public void AddPlayer()
+    //{
+    //    if (playerNumber < 4)
+    //    {
+    //        playerNumber++;
+    //        myText.text = "Player: " + playerNumber;
+    //    }
+    //    return;
+    //}
+    //public void SubPlayer()
+    //{
+    //    if (playerNumber > 1)
+    //    {
+    //        playerNumber--;
+    //        myText.text = "Player: " + playerNumber;
+    //    }
+    //    return;
             
+    //}
+
+    public void SetNumberOfPlayer(int numberset)
+    {
+        playerNumber = numberset;
+        myText.text = "Player: " + playerNumber;
     }
 
     public void ToScore()
@@ -45,10 +51,14 @@ public class ClassificaManager : MonoBehaviour {
         }
     }
     public void Reset()
-    {
+    {    
         playerInGame.Clear();
         scorePannel.SetActive(false);
         playerNumber = 1;
         myText.text = "Player: " + playerNumber;
+        for (int k = 0; k < scoreText.Length; k++)
+        {
+            scoreText[k].text =null;
+        }
     }
 }
