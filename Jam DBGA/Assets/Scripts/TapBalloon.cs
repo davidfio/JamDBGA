@@ -19,7 +19,9 @@ public class TapBalloon : MonoBehaviour
     private bool explosiveTick; 
     public bool isExplosed;
     public GameObject Effetto;
+    public GameObject Effetto2;
     private void Awake ()
+        
 	{
         refSC = FindObjectOfType<SceneController>();
 
@@ -72,6 +74,7 @@ public class TapBalloon : MonoBehaviour
 #region Methods
     private void Increase()
     {
+        Effetto2.SetActive(false);
         this.transform.localScale += thresholdScale;
         tickCount++;
     }
@@ -132,6 +135,7 @@ public class TapBalloon : MonoBehaviour
 
     private IEnumerator ReduceCO()
     {
+       Effetto2.SetActive(true);
         while (this.transform.localScale.sqrMagnitude > startScale.sqrMagnitude)
         {
             this.transform.localScale -= thresholdScale * Time.deltaTime * 2.5f;
