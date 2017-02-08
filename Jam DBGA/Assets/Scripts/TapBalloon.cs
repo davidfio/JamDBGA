@@ -10,12 +10,12 @@ public class TapBalloon : MonoBehaviour
     // For debug
     public TextMesh textMesh;
     public UI refUI;
-    public Button retryButton, nextPlayerButton;
+	private GameManager refGM;
     private Vector3 thresholdScale, finalScale; 
     public Vector3 startScale;
-    private SceneController refSC;
+	private NPlayer refNP;
     private Timer refTimer;
-    public ParticleSystem particle;
+    
     public float tickTot, tickCount;
     private int numberPlayer, riskyTick, probability;
     public bool isExplosed, timerFinish;
@@ -23,10 +23,10 @@ public class TapBalloon : MonoBehaviour
 
     private void Awake ()
     {
-        refSC = FindObjectOfType<SceneController>();
+		refNP = FindObjectOfType<NPlayer>();
         refUI = FindObjectOfType<UI>();
         refTimer = FindObjectOfType<Timer>();
-
+		refGM = FindObjectOfType<GameManager>();
         // Random tickTot for each match
 	    tickTot = Random.Range(30, 51);
         // Player tick
@@ -37,9 +37,9 @@ public class TapBalloon : MonoBehaviour
 	    textMesh.text = tickCount + " /" + tickTot;
 
         startScale = Vector3.one;
-        finalScale = new Vector3(3.5f, 2.7f, 3.5f);
+        finalScale = new Vector3(3.2f, 2.5f, 3.2f);
         thresholdScale = finalScale / tickTot;
-        numberPlayer = refSC.numberPlayerFromMenu;
+		numberPlayer = refNP.nPlayer;
 
         //if (SceneManager.GetActiveScene().name == "GameSceneMulti")
         //{
@@ -67,14 +67,17 @@ public class TapBalloon : MonoBehaviour
         else if (Input.GetMouseButtonDown(0) && tickCount >= tickTot && !isExplosed)
         {
             Explosion();
-            DecisionAfterMatch(numberPlayer);
+            refGM.DecisionAfterMatch();
             isExplosed = true;            
         }
 
         // If timer is finish start Decision and set isExplosed as true;
         if (timerFinish)
         {
-            DecisionAfterMatch(numberPlayer);
+			// SALVA PUNTEGGIO
+			refGM.SaveScore(tickCount);
+			refGM.DecisionAfterMatch();
+			StopAllCoroutines ();
             isExplosed = true;
         }
         
@@ -114,6 +117,7 @@ public class TapBalloon : MonoBehaviour
 
     private void Explosion()
     {
+		refGM.SaveScore(0);
         this.GetComponent<MeshRenderer>().enabled = false;
         Effetto.SetActive(true);
         StartCoroutine(ParticleSystemCO(5));
@@ -128,34 +132,11 @@ public class TapBalloon : MonoBehaviour
         if (probability > 5) return;
 
         Explosion();
-        DecisionAfterMatch(numberPlayer);
+		refGM.DecisionAfterMatch();
         isExplosed = true;
     }
 
-    public void DecisionAfterMatch(int _numPlayer)
-    {
-
-        if (SceneManager.GetActiveScene().name.Equals("GameSceneSingle"))
-        {
-            retryButton.gameObject.SetActive(true);
-            StopAllCoroutines();
-        }
-
-        else if (SceneManager.GetActiveScene().name.Equals("GameSceneMulti"))
-        {
-            nextPlayerButton.gameObject.SetActive(true);
-
-            StopAllCoroutines();
-        }
-
-        if (refSC.playerCounter.Equals(_numPlayer))
-        {
-            nextPlayerButton.gameObject.SetActive(false);
-            retryButton.gameObject.SetActive(true);
-
-            StopAllCoroutines();
-        }
-    }
+    
 
     private IEnumerator ReduceScaleCO()
     {

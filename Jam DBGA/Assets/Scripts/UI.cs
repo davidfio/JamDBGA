@@ -3,14 +3,14 @@ using System.Collections;
 
 public class UI : MonoBehaviour
 {
-    private SceneController refSC;
+	private GameManager refGM;
     public GameObject panelTutorial;
 
 	private void Start()
 	{
-	    refSC = FindObjectOfType<SceneController>();
+		refGM = FindObjectOfType<GameManager>();
 
-	    if (refSC.isFirstTime)
+	    if (refGM.isFirstTime)
 	    {
 	        panelTutorial.SetActive(true);
             Time.timeScale = 0;
@@ -25,12 +25,6 @@ public class UI : MonoBehaviour
     public void TapToPlay()
     {
         Time.timeScale = 1;
-        refSC.isFirstTime = false;
-    }
-
-    public IEnumerator PlayerButtonFade(GameObject _go)
-    {
-        yield return new WaitForSeconds(2f);
-        _go.SetActive(false);
+        refGM.isFirstTime = false;
     }
 }
