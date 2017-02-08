@@ -14,6 +14,7 @@ public class SceneController : MonoBehaviour
     private TapBalloon refTap;
     public int numberPlayer, playerCounter = 1;
     public GameObject balloon;
+	public GameObject canvasFader;
 
     public Text playerShift;
 
@@ -35,7 +36,8 @@ public class SceneController : MonoBehaviour
 
     public void StartMatch(int _player)
     {
-        SceneManager.LoadScene(1);
+        //SceneManager.LoadScene(1);
+		StartCoroutine(FadeToScene());
         numberPlayer = _player;
     }
 
@@ -60,4 +62,14 @@ public class SceneController : MonoBehaviour
         }
 
     }
+
+
+	public IEnumerator FadeToScene ()
+	{
+		canvasFader = GameObject.FindGameObjectWithTag ("Fader");
+		canvasFader.GetComponent<Fade>().FadeIn();
+		yield return new WaitForSeconds(0.8f);
+		SceneManager.LoadScene(1);
+	}
+
 }
