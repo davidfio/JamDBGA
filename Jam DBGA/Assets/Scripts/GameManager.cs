@@ -55,7 +55,8 @@ public class GameManager : MonoBehaviour {
 	public void SaveScore (float click) 
 	{
 		scoreTextArray [playerCounter].gameObject.SetActive (true);
-		scoreTextArray [playerCounter].text = "Player " + playerCounter + " : " + click;
+		int realNPlayer = playerCounter + 1;
+		scoreTextArray [playerCounter].text = "Player " + realNPlayer + " : " + click;
 	}
 
 
