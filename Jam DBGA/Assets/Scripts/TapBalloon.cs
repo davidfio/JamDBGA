@@ -17,11 +17,11 @@ public class TapBalloon : MonoBehaviour
     public float tickTot, tickCount;
     private int numberPlayer, riskyTick, probability;
     public bool isExplosed, timerFinish;
-    public GameObject Effetto;
+    public GameObject Effetto, waterBall;
     public GameObject Effetto2;
 
-    private void Awake ()       
-	{
+    private void Awake ()
+    {
         refSC = FindObjectOfType<SceneController>();
 
         // Random tickTot for each match
@@ -52,6 +52,7 @@ public class TapBalloon : MonoBehaviour
 
             Increase();
             StopAllCoroutines();
+            waterBall.gameObject.SetActive(false);
             textMesh.text = tickCount + " /" + tickTot;
         }
 
@@ -68,14 +69,12 @@ public class TapBalloon : MonoBehaviour
             DecisionAfterMatch(numberPlayer);
             isExplosed = true;
         }
-
-
+        
         // Make a method that it's called when you don't tap
         if (Input.GetMouseButtonUp(0))
         {
             StartCoroutine(DeflateCO());
         }
-
     }
 
 #region Methods
@@ -86,7 +85,7 @@ public class TapBalloon : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         StartCoroutine(ReduceScaleCO());
         StartCoroutine(DecreaseCO());
-
+        waterBall.gameObject.SetActive(true);
     }
 
     private void Increase()
@@ -155,6 +154,7 @@ public class TapBalloon : MonoBehaviour
             this.transform.localScale -= thresholdScale * Time.deltaTime;
             yield return null;
         }
+        waterBall.gameObject.SetActive(false);
         yield break;
     }
 
