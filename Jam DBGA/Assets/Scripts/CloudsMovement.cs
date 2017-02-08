@@ -24,13 +24,13 @@ public class CloudsMovement : MonoBehaviour
 
         if (moveDX)
         {
-            this.transform.Translate(Vector3.right * Time.deltaTime * speed);
+            this.transform.Translate(-Vector3.right * Time.deltaTime * speed);
         }
 
 
         if (moveSX)
         {
-            this.transform.Translate(-Vector3.right * Time.deltaTime * speed);
+            this.transform.Translate(Vector3.right * Time.deltaTime * speed);
         }
     }
 
