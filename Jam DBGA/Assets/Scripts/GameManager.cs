@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour {
 	{
 		refTap = FindObjectOfType<TapBalloon>();
 		refTimer = FindObjectOfType<Timer>();
-		playerCounter = 1;
+		playerCounter = 0;
 		playerShift.text = "Player " + playerCounter + " it's your turn!";
 
 	}
@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour {
 			StopAllCoroutines();
 		}
 
-		if (playerCounter.Equals(NPlayer.Self.nPlayer))
+		if (playerCounter.Equals(NPlayer.Self.nPlayer-1))
 		{
 			nextPlayerButton.gameObject.SetActive(false);
 			retryButton.gameObject.SetActive(true);
