@@ -20,6 +20,11 @@ public class TapBalloon : MonoBehaviour
     private int numberPlayer, riskyTick, probability;
     public bool isExplosed, timerFinish;
     public GameObject Effetto, Effetto2, waterBall;
+    public GameObject TargetA;
+    public GameObject TargetB;
+    public float maxSpeed = 3;
+    private float ForSpeed;
+
 
     private void Awake ()
     {
@@ -49,6 +54,7 @@ public class TapBalloon : MonoBehaviour
 
     private void Update ()
     {
+        transform.rotation = Quaternion.Slerp(TargetA.transform.rotation, TargetB.transform.rotation, Mathf.SmoothStep(0f, 1f, Mathf.PingPong(Time.time * ForSpeed, 1f)));
         if (Input.GetMouseButtonDown(0) && tickCount <= tickTot && !isExplosed)
         {
             // Risky zone
@@ -107,6 +113,7 @@ public class TapBalloon : MonoBehaviour
     {
         this.transform.localScale += thresholdScale;
         tickCount++;
+        ForSpeed = maxSpeed * tickCount / tickTot;
     }
 
     private IEnumerator DecreaseCO()
