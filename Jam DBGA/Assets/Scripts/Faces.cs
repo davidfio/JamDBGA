@@ -23,7 +23,13 @@ public class Faces : MonoBehaviour {
         {
             faceToScale.localScale += new Vector3(Time.deltaTime, Time.deltaTime, Time.deltaTime);           
         } */    
-
+		if (faceToScale.localScale.x < 1.5 && faceToScale.localScale.y < 1.5 && faceToScale.localScale.z < 1.5)
+		{
+			face_1.SetActive(true);
+			face_2.SetActive(false);
+			face_3.SetActive(false);
+			face_4.SetActive(false);
+		}
 
         // Set next face
         if (faceToScale.localScale.x > 1.5 && faceToScale.localScale.y > 1.5 && faceToScale.localScale.z > 1.5)

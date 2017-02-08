@@ -40,7 +40,7 @@ public class TapBalloon : MonoBehaviour
         finalScale = new Vector3(3.2f, 2.5f, 3.2f);
         thresholdScale = finalScale / tickTot;
 		numberPlayer = refNP.nPlayer;
-
+		isExplosed = true;
         //if (SceneManager.GetActiveScene().name == "GameSceneMulti")
         //{
         //    refUI.StartCoroutine(refUI.PlayerButtonFade(nextPlayerButton.gameObject));
@@ -90,6 +90,10 @@ public class TapBalloon : MonoBehaviour
 
 #region Methods
 
+	public void StartGame () {
+		isExplosed = false;
+	}
+
 
     private IEnumerator DeflateCO()
     {
@@ -118,11 +122,15 @@ public class TapBalloon : MonoBehaviour
     private void Explosion()
     {
 		refGM.SaveScore(0);
-        this.GetComponent<MeshRenderer>().enabled = false;
+
+		this.GetComponent<MeshRenderer>().enabled = false;
+		this.transform.localScale = startScale;
         Effetto.SetActive(true);
         StartCoroutine(ParticleSystemCO(5));
         // Stop the coroutin inside timer to stop the time when balloon explose
         refTimer.StopAllCoroutines();
+		this.gameObject.SetActive (false);
+
     }
 
     private void RandomExplosion()

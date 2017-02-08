@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject panelScore;
 	public Button retryButton, nextPlayerButton;
 	public Text[] scoreTextArray;
+	public bool canPlay;
 
 	private void Awake()
 	{
@@ -84,7 +85,9 @@ public class GameManager : MonoBehaviour {
 		// Reset color of the text mesh
 		refTap.textMesh.color = Color.blue;
 		// Reset scale and mesh renderer of the balloon
+		balloon.gameObject.SetActive (true);
 		balloon.transform.localScale = refTap.startScale;
+
 		balloon.GetComponent<MeshRenderer>().enabled = true;
 		// Disable particles systems
 		refTap.Effetto.SetActive(false);
