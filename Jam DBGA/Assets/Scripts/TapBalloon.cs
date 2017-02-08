@@ -18,7 +18,7 @@ public class TapBalloon : MonoBehaviour
     private int numberPlayer, riskyTick;
     private bool explosiveTick; 
     public bool isExplosed;
-
+    public GameObject Effetto;
     private void Awake ()
 	{
         refSC = FindObjectOfType<SceneController>();
@@ -37,7 +37,10 @@ public class TapBalloon : MonoBehaviour
         thresholdScale = finalScale / tickTot;
         numberPlayer = refSC.numberPlayer;
     }
-
+    private void OnStart()
+    {
+        Effetto.SetActive(false);
+    }
     private void Update ()
     {
         if (Input.GetMouseButtonDown(0) && tickCount <= tickTot && !isExplosed)
@@ -57,6 +60,7 @@ public class TapBalloon : MonoBehaviour
             FinishExplosion();
             DecisionAfterMatch(numberPlayer);
             isExplosed = true;
+            
         }
 
         if (Input.GetMouseButtonDown(1))
@@ -88,7 +92,8 @@ public class TapBalloon : MonoBehaviour
     private void FinishExplosion()
     {
         StartCoroutine(WaterParticle());
-        this.GetComponent<MeshRenderer>().enabled = false;      
+        this.GetComponent<MeshRenderer>().enabled = false;
+        Effetto.SetActive(true);
     }
 
     private void DecisionAfterMatch(int _numPlayer)
