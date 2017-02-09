@@ -114,9 +114,9 @@ public class GameManager : MonoBehaviour {
 		refTap.Effetto.SetActive(false);
 		refTap.Effetto2.SetActive(false);
 		refTap.waterBall.SetActive(false);
-		// Print text to playershift
-		int realNPlayer = playerCounter + 1;
-		nextPlayerButton.transform.GetChild(0).GetComponent<Text>().text = "Player " + realNPlayer + " it's your turn!";
+        // Print text to playershift
+		int realNPlayer = playerCounter + 2;
+		nextPlayerButton.transform.GetChild(0).GetComponent<Text>().text = "Player " + realNPlayer  + " it's your turn!";
 		// Start again the timer
 		refTimer.StartCoroutine(refTimer.DecreaseBar());
 	}
@@ -127,11 +127,14 @@ public class GameManager : MonoBehaviour {
 		if (playerCounter.Equals (NPlayer.Self.nPlayer-1)){
 			playerCounter = 0;
 			int realNPlayer = playerCounter + 1;
-			nextPlayerButton.transform.GetChild(0).GetComponent<Text>().text = "Player " + realNPlayer + " it's your turn!";
-		} else {
+			nextPlayerButton.transform.GetChild(0).GetComponent<Text>().text = "Player " + realNPlayer   + " pass your turn!";
+            
+		}
+        else
+        {
 			playerCounter++;
 			int realNPlayer = playerCounter + 1;
-			nextPlayerButton.transform.GetChild(0).GetComponent<Text>().text = "Player " + realNPlayer + " it's your turn!";
+			nextPlayerButton.transform.GetChild(0).GetComponent<Text>().text = "Player " + realNPlayer  + " pass your turn!";
 		}
 
 	} 

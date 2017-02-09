@@ -46,7 +46,7 @@ public class TapBalloon : MonoBehaviour
         thresholdScale = finalScale / tickTot;
 		numberPlayer = refNP.nPlayer;
 		isExplosed = true;
-		refGM.nextPlayerButton.transform.GetChild(0).GetComponent<Text>().text = "Player 1 it's your turn!";
+		refGM.nextPlayerButton.transform.GetChild(0).GetComponent<Text>().text = "Player 2 it's your turn!";
         //if (SceneManager.GetActiveScene().name == "GameSceneMulti")
         //{
         //    refUI.StartCoroutine(refUI.PlayerButtonFade(nextPlayerButton.gameObject));
