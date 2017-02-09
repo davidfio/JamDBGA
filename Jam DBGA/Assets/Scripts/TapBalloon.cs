@@ -73,6 +73,7 @@ public class TapBalloon : MonoBehaviour
 
         else if (Input.GetMouseButtonDown(0) && tickCount >= tickTot && !isExplosed)
         {
+			Debug.Log ("EXPLOSION?!");
             Explosion();
             
             isExplosed = true;            
@@ -81,6 +82,7 @@ public class TapBalloon : MonoBehaviour
         // If timer is finish start Decision and set isExplosed as true;
         if (timerFinish)
         {
+			Debug.Log ("TEMPO_SCADUTO");
 			// SALVA PUNTEGGIO
 			refGM.SaveScore(tickCount);
 			refGM.DecisionAfterMatch();
@@ -131,6 +133,7 @@ public class TapBalloon : MonoBehaviour
 
     private void Explosion()
     {
+		Debug.Log ("EXPLOSION_START");
 		refGM.SaveScore(0);
 
 		this.GetComponent<MeshRenderer>().enabled = false;
@@ -140,17 +143,19 @@ public class TapBalloon : MonoBehaviour
         // Stop the coroutin inside timer to stop the time when balloon explose
         refTimer.StopAllCoroutines();
 		this.gameObject.SetActive (false);
-
+		refGM.DecisionAfterMatch();
+		Debug.Log ("EXPLOSION_END");
     }
 
     private void RandomExplosion()
     {
+		Debug.Log ("RANDOM_EXPLOSION");
         probability = Random.Range(0, 21);
 
         if (probability > 5) return;
 
         Explosion();
-		refGM.DecisionAfterMatch();
+		//refGM.DecisionAfterMatch();
         isExplosed = true;
     }
 
@@ -172,7 +177,7 @@ public class TapBalloon : MonoBehaviour
         Effetto2.SetActive(true);
         yield return new WaitForSeconds(_time);
         Effetto2.SetActive(false);
-		refGM.DecisionAfterMatch();
+		//refGM.DecisionAfterMatch();
     }
     #endregion
 }

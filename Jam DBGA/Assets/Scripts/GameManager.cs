@@ -53,10 +53,14 @@ public class GameManager : MonoBehaviour {
 
 	}
 
+	public void ActivateScorePanel(){
+		StartCoroutine(PanelScore());
+	}
+
 
 	public IEnumerator PanelScore () {
-		//yield return new WaitForSeconds (3f);
-		yield return null;
+		yield return new WaitForSeconds (3f);
+		//yield return null;
 		panelScore.SetActive (true);
 		StopAllCoroutines();
 	}
