@@ -18,6 +18,16 @@ public class NPlayer : MonoBehaviour
 
 	void Awake () 
 	{
-		DontDestroyOnLoad (this.gameObject);
+		//DontDestroyOnLoad (this.gameObject);
+		if (_self != null && _self != this) 
+		{ 
+			Destroy(this.gameObject); 
+		} 
+		else 
+		{ 
+			_self = this;
+			DontDestroyOnLoad(this.gameObject);
+		} 
+
 	}
 }
