@@ -70,7 +70,7 @@ public class MenuHandler : MonoBehaviour {
 		//Rende selezionabili le modalità
 		gameModesButtons [0].GetComponent<Button> ().interactable = true;
 		gameModesButtons [1].GetComponent<Button> ().interactable = true;
-		gameModesButtons [2].GetComponent<Button> ().interactable = true;
+		//gameModesButtons [2].GetComponent<Button> ().interactable = true;
 		gameModesButtons [3].GetComponent<Button> ().interactable = false;
 
 	}
@@ -88,10 +88,16 @@ public class MenuHandler : MonoBehaviour {
 			}
 		}
 
+		/*
 		//Rende selezionabili le modalità
 		for (int i = 0; i < playerButtons.Count; i++) {
 			gameModesButtons [i].GetComponent<Button> ().interactable = true;
-		}
+		}*/
+
+
+		//Rende selezionabili le modalità
+		gameModesButtons [0].GetComponent<Button> ().interactable = true;
+		gameModesButtons [1].GetComponent<Button> ().interactable = true;
 	}
 
 
@@ -107,10 +113,15 @@ public class MenuHandler : MonoBehaviour {
 			}
 		}
 
+		/*
 		//Rende selezionabili le modalità
 		for (int i = 0; i < playerButtons.Count; i++) {
 			gameModesButtons [i].GetComponent<Button> ().interactable = true;
-		}
+		}*/
+
+		//Rende selezionabili le modalità
+		gameModesButtons [0].GetComponent<Button> ().interactable = true;
+		gameModesButtons [1].GetComponent<Button> ().interactable = true;
 	}
 
 }
