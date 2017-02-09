@@ -39,10 +39,10 @@ public class SceneController : MonoBehaviour
 			StartCoroutine (FadeToScene (2));
 			break;
 		case 3:
-			StartCoroutine (FadeToScene (3));
+			//StartCoroutine (FadeToScene (3));
 			break;
 		case 4:
-			StartCoroutine (FadeToScene (4));
+			//StartCoroutine (FadeToScene (4));
 			break;
 		default:
 			print ("Incorrect level.");
@@ -66,6 +66,10 @@ public class SceneController : MonoBehaviour
 		yield return new WaitForSeconds(0.8f);
 		SceneManager.LoadScene(sceneIndex);
 	}
-    
+
+
+	public void ExitGame(){
+		Application.Quit();
+	}
     
 }

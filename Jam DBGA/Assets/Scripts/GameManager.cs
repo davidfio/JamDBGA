@@ -17,45 +17,55 @@ public class GameManager : MonoBehaviour {
 	public Button retryButton, nextPlayerButton;
 	public Text[] scoreTextArray;
 
+	public GameObject canvasFader;
+
 	private void Awake()
 	{
+		canvasFader = GameObject.FindWithTag ("Fader");
 		refTap = FindObjectOfType<TapBalloon>();
 		refTimer = FindObjectOfType<Timer>();
 		playerCounter = 0;
-		playerShift.text = "Player " + playerCounter + " it's your turn!";
+		//playerShift.text = "Player " + playerCounter + " it's your turn!";
 
 	}
 
 	public void DecisionAfterMatch()
 	{
-
+		/*
 		if (NPlayer.Self.nPlayer == 1)
 		{
-			retryButton.gameObject.SetActive(true);
+			//retryButton.gameObject.SetActive(true);
 			StopAllCoroutines();
-		}
+		}*/
 
-		else if (NPlayer.Self.nPlayer > 1)
+		if (playerCounter.Equals(NPlayer.Self.nPlayer-1))
 		{
+			Debug.Log ("PLAYER_FINITI");
+			nextPlayerButton.gameObject.SetActive(false);
+			//retryButton.gameObject.SetActive(true);
+			StartCoroutine(PanelScore());
+		} else if (NPlayer.Self.nPlayer > 1) {
 			nextPlayerButton.gameObject.SetActive(true);
 
 			StopAllCoroutines();
 		}
 
-		if (playerCounter.Equals(NPlayer.Self.nPlayer-1))
-		{
-			nextPlayerButton.gameObject.SetActive(false);
-			retryButton.gameObject.SetActive(true);
-			panelScore.SetActive (true);
-			StopAllCoroutines();
-		}
+
+	}
+
+
+	public IEnumerator PanelScore () {
+		//yield return new WaitForSeconds (3f);
+		yield return null;
+		panelScore.SetActive (true);
+		StopAllCoroutines();
 	}
 
 	public void SaveScore (float click) 
 	{
 		scoreTextArray [playerCounter].gameObject.SetActive (true);
 		int realNPlayer = playerCounter + 1;
-		scoreTextArray [playerCounter].text = "Player " + realNPlayer + " : " + click;
+		scoreTextArray [playerCounter].text = "PLAYER " + realNPlayer + " : " + click;
 	}
 
 
@@ -67,6 +77,13 @@ public class GameManager : MonoBehaviour {
 			playerCounter++;
 			ResetMatch ();
 		}
+	}
+
+
+	public void RestartBalloonParty()
+	{
+		playerCounter = 0;
+		ResetMatch ();
 	}
 
 
@@ -114,5 +131,22 @@ public class GameManager : MonoBehaviour {
 		}
 
 	} 
+
+	public void RestartScene (int sceneIndex) {
+		StartCoroutine(FadeToScene(sceneIndex));
+	}
+
+
+	public void BackToMenu(){
+		StartCoroutine(FadeToScene(0));
+	}
+
+	public IEnumerator FadeToScene (int sceneIndex)
+	{
+		canvasFader = GameObject.FindGameObjectWithTag ("Fader");
+		canvasFader.GetComponent<Fade>().FadeIn();
+		yield return new WaitForSeconds(0.8f);
+		SceneManager.LoadScene(sceneIndex);
+	}
 
 }

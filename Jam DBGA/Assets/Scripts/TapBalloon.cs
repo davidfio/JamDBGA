@@ -46,6 +46,7 @@ public class TapBalloon : MonoBehaviour
         thresholdScale = finalScale / tickTot;
 		numberPlayer = refNP.nPlayer;
 		isExplosed = true;
+		refGM.nextPlayerButton.transform.GetChild(0).GetComponent<Text>().text = "Player 1 it's your turn!";
         //if (SceneManager.GetActiveScene().name == "GameSceneMulti")
         //{
         //    refUI.StartCoroutine(refUI.PlayerButtonFade(nextPlayerButton.gameObject));
@@ -73,7 +74,7 @@ public class TapBalloon : MonoBehaviour
         else if (Input.GetMouseButtonDown(0) && tickCount >= tickTot && !isExplosed)
         {
             Explosion();
-            refGM.DecisionAfterMatch();
+            
             isExplosed = true;            
         }
 
@@ -90,7 +91,9 @@ public class TapBalloon : MonoBehaviour
         // Make a method that it's called when you don't tap
         if (Input.GetMouseButtonUp(0))
         {
-            StartCoroutine(DeflateCO());
+			if (this.gameObject.activeSelf) {
+				StartCoroutine (DeflateCO ());
+			}
         }
     }
 
@@ -169,6 +172,7 @@ public class TapBalloon : MonoBehaviour
         Effetto2.SetActive(true);
         yield return new WaitForSeconds(_time);
         Effetto2.SetActive(false);
+		refGM.DecisionAfterMatch();
     }
     #endregion
 }
