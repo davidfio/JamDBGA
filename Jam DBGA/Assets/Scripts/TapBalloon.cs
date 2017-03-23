@@ -22,6 +22,7 @@ public class TapBalloon : MonoBehaviour
     public GameObject Effetto, Effetto2, waterBall;
     public GameObject TargetA;
     public GameObject TargetB;
+	public GameObject warningText;
     public float maxSpeed = 3;
     private float ForSpeed;
 
@@ -83,6 +84,9 @@ public class TapBalloon : MonoBehaviour
         if (timerFinish)
         {
 			Debug.Log ("TEMPO_SCADUTO");
+			if (warningText) {
+				warningText.SetActive (false);
+			}
 			// SALVA PUNTEGGIO
 			refGM.SaveScore(tickCount);
 			refGM.DecisionAfterMatch();
@@ -109,6 +113,7 @@ public class TapBalloon : MonoBehaviour
     private IEnumerator DeflateCO()
     {
         yield return new WaitForSeconds(1.5f);
+		warningText.SetActive (true);
         StartCoroutine(ReduceScaleCO());
         StartCoroutine(DecreaseCO());
         waterBall.gameObject.SetActive(true);
@@ -116,6 +121,9 @@ public class TapBalloon : MonoBehaviour
 
     private void Increase()
     {
+		if (warningText) {
+			warningText.SetActive (false);
+		}
         this.transform.localScale += thresholdScale;
         tickCount++;
         ForSpeed = maxSpeed * tickCount / tickTot;
